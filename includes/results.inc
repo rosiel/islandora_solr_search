@@ -247,7 +247,8 @@ class IslandoraSolrResults {
           $symbol = '&ne;';
         }
         else {
-          $symbol = '=';
+          //$symbol = '=';
+          $symbol = '';
         }
         $filter_string = $this->formatFilter($filter, $islandora_solr_query);
         // Pull out filter (for exclude link).
@@ -531,7 +532,6 @@ class IslandoraSolrResults {
     // strings. when we double-encode quotation marks they're incomprehensible
     // to Solr.
     $output = str_replace('%2B', '%252B', $output);
-
     return $output;
   }
 

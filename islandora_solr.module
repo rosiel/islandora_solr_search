@@ -309,6 +309,11 @@ function islandora_solr($query = NULL) {
     drupal_set_message(filter_xss($message, array('pre', 'br')), 'status');
   }
 
+  // drupal page title different for default query
+  if ($query == NULL) {
+      drupal_set_title(t('Recent publications'));
+  }
+
   return $output;
 }
 
