@@ -1497,6 +1497,7 @@ function _islandora_solr_handle_solr_field_settings($solr_field_settings = NULL,
           'date_filter_datepicker_enabled',
           'date_filter_datepicker_range',
           'permissions',
+          'languages',
         ));
         $relevant_values = array_intersect_key($solr_field_settings, $fields);
         $relevant_values['label'] = isset($relevant_values['label']) ?

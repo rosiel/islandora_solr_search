@@ -86,6 +86,7 @@ function islandora_solr_get_fields($field_type = NULL, $filter = TRUE, $simplifi
  */
 function _islandora_solr_filter_fields($records = array()) {
   global $user;
+  global $language;
 
   // No checks for user 1.
   if ($user->uid == 1) {
@@ -99,8 +100,21 @@ function _islandora_solr_filter_fields($records = array()) {
       $field_roles = $record['solr_field_settings']['permissions'];
       // Check field permissions agains user roles.
       $check = array_intersect($field_roles, array_keys($user->roles));
-      if (!empty($check)) {
-        $filtered_records[] = $record;
+      if (empty($check)) {
+        continue;
+      }
+      // Get field languages.
+      if (isset($record['solr_field_settings']['languages'])) {
+          $field_languages = $record['solr_field_settings']['languages'];
+          $count = array_filter( $field_languages, 'strlen');
+          // if no languages are set, or the current languages IS set, include.
+          if (count( $count ) == 0 || $field_languages[$language->language] != NULL) {
+              $filtered_records[] = $record;
+          }
+      }
+      else {
+          // If languages are not explicitly set, include by default.
+          $filtered_records[] = $record;
       }
     }
     else {
@@ -108,6 +122,8 @@ function _islandora_solr_filter_fields($records = array()) {
       $filtered_records[] = $record;
     }
   }
+
+
   return $filtered_records;
 }
 
