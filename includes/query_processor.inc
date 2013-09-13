@@ -126,6 +126,14 @@ class IslandoraSolrQueryProcessor {
       $this->solrQuery = ' ';
       // Set base query.
       $this->internalSolrQuery = variable_get('islandora_solr_base_query', 'timestamp:[* TO NOW]');
+      // And set base query sort, if empty.
+      if (!isset($this->internalSolrParams['sort'])) {
+          $base_sort = variable_get('islandora_solr_base_sort', 'score desc');
+          $base_sort = trim($base_sort);
+          if (!empty($base_sort)) {
+              $this->solrParams['sort'] = $base_sort;
+          }
+      }
 
       // We must also undo dismax if it has been set.
       $this->solrDefType = NULL;
@@ -142,13 +150,6 @@ class IslandoraSolrQueryProcessor {
       else {
         // Use ascending.
         $this->solrParams['sort'] = $sort_explode[0] . ' asc';
-      }
-    }
-    else {
-      $base_sort = variable_get('islandora_solr_base_sort', '');
-      $base_sort = trim($base_sort);
-      if (!empty($base_sort)) {
-        $this->solrParams['sort'] = $base_sort;
       }
     }
 
