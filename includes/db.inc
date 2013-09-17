@@ -100,7 +100,7 @@ function _islandora_solr_filter_fields($records = array()) {
       $field_roles = $record['solr_field_settings']['permissions'];
       // Check field permissions agains user roles.
       $check = array_intersect($field_roles, array_keys($user->roles));
-      if (!empty($check)) {
+      if (empty($check)) {
         continue;
       }
       // Get field languages.
